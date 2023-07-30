@@ -5,28 +5,18 @@ set -e
 update () {
 
 	relnum=$(awk '/tar.bz2/{print NR; exit}' "$MANIFEST_PATH")
-	echo $relnum
 	vernum=$(awk '/VERSION:/{print NR; exit}' "$MANIFEST_PATH")
-	echo $vernum
 	shanum=$(awk '/sha256/{print NR}' "$MANIFEST_PATH"|tail -n1)
-	echo $shanum
 	oldrelease=$(sed "${relnum}!d" "$MANIFEST_PATH"|sed -n '{s|.*/firefox-\(.*\)\.tar.bz2|\1|p;q;}')
-	echo $oldrelease
 	newrelease=$(wget -q --spider -S --max-redirect 0 "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US" 2>&1 | sed -n '/Location: /{s|.*/firefox-\(.*\)\.tar.*|\1|p;q;}')
-	echo $newrelease
 	sed -i "${relnum}s/$oldrelease/$newrelease/g" "$MANIFEST_PATH"
 	updrelease=$(sed "${relnum}!d" "$MANIFEST_PATH"|sed -n '{s|.*/firefox-\(.*\)\.tar.bz2|\1|p;q;}')
-	echo $updrelease
 	versionold=$(echo "$oldrelease"|head -c 7)
-	echo $versionold
 	versionnew=$(echo "$updrelease"|head -c 7)
-	echo $versionnew
 	sed -i "${vernum}s/VERSION: $versionold/VERSION: $versionnew/g" "$MANIFEST_PATH"
-	wget -q https://archive.mozilla.org/pub/firefox/releases/"$updrelease"/SHA256SUMS
+	wget -q https://download-installer.cdn.mozilla.net/pub/devedition/releases/"$updrelease"/SHA256SUMS
 	shanew=$(grep linux-x86_64/en-US/firefox-"$updrelease".tar.bz2 < SHA256SUMS|cut -d " " -f1)
-	echo $shanew
 	shaold=$(sed "${shanum}!d" "$MANIFEST_PATH"|cut -d: -f2|sed 's/^[ \t]*//;s/[ \t]*$//')
-	echo $shaold
 	sed -i "${shanum}s/$shaold/$shanew/g" "$MANIFEST_PATH"
 	rm -- SHA256SUMS
 
@@ -34,7 +24,7 @@ update () {
 
 if [ -z "$CI_PROJECT_DIR" ]; then
 	export APP_ID=org.mozilla.FirefoxDev.yaml
-	export MANIFEST_PATH=org.mozilla.FirefoxDev.yaml
+	export MANIFEST_PATH="$PWD"/"$APP_ID"
 else
 	export MANIFEST_PATH="$CI_PROJECT_DIR"/"$APP_ID".yaml
 fi

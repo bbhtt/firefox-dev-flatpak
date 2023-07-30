@@ -51,7 +51,7 @@ finish-args:
 
   - --own-name=org.mpris.MediaPlayer2.firefox.*
   - --own-name=org.mozilla.firefox.*
-  - --own-name=org.mozilla.firefox_nightly.*
+  - --own-name=org.mozilla.firefox_aurora.*
 
 cleanup-commands:
   - mkdir -p ${FLATPAK_DEST}/lib/ffmpeg
@@ -128,7 +128,7 @@ modules:
     sources:
       - type: archive
         url: https://mozilla.design/files/2019/10/Firefox-Browser-Developer-Logo-Assets.zip
-        sha256: 171804ae3ded7446b7719f656c2124a9e425896f692cecddb8b86708a0105b11
+        sha256: 9d43352b74a7662c90b81cd9d35949cc42141ed05d98b2877f33e55d6add2e92
 
   - name: distribution
     buildsystem: simple
@@ -150,8 +150,8 @@ modules:
       - rm -f ${FLATPAK_DEST}/lib/firefox/update-settings.ini
     sources:
       - type: archive
-        url: https://archive.mozilla.org/pub/firefox/releases/116.0b8/linux-x86_64/en-US/firefox-116.0b8.tar.bz2
-        sha256: 7fc46217633e9665178d3a726cf71a48c88698be6aa12aa908e577f660000e6d
+        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/116.0b8/linux-x86_64/en-US/firefox-116.0b8.tar.bz2
+        sha256: fdde9c378b5b184e8ed81d62eb03dd39bae52496e742ed960fd16eeb299c6662
 #        x-checker-data:
 #          type: rotating-url
 #          url: https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=linux64&lang=en-US
