@@ -1,0 +1,169 @@
+app-id: org.mozilla.FirefoxDev
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+base: org.mozilla.firefox.BaseApp
+base-version: '22.08'
+command: firefox-dev
+add-extensions:
+  org.freedesktop.Platform.ffmpeg-full:
+    directory: lib/ffmpeg
+    add-ld-path: .
+    no-autodownload: true
+    version: '22.08'
+  org.mozilla.FirefoxDev.Locale:
+    directory: share/runtime/langpack
+    autodelete: true
+    locale-subset: true
+
+finish-args:
+  - --allow=devel
+
+  - --device=dri
+
+  - --share=ipc
+  - --share=network
+
+  - --socket=pcsc
+  - --socket=cups
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --socket=wayland
+
+  - --require-version=0.11.1
+
+  - --filesystem=/etc/firefox/policies
+  - --filesystem=xdg-download
+  - --filesystem=/run/.heim_org.h5l.kcm-socket
+
+  - --persist=.mozilla
+
+  - --env=GTK_PATH=/app/lib/gtkmodules
+
+  - --talk-name=org.freedesktop.FileManager1
+  - --talk-name=org.a11y.Bus
+  - --talk-name=org.gnome.SessionManager
+  - --talk-name=org.freedesktop.ScreenSaver
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.gtk.vfs.*
+
+  - --system-talk-name=org.freedesktop.NetworkManager
+
+  - --own-name=org.mpris.MediaPlayer2.firefox.*
+  - --own-name=org.mozilla.firefox.*
+  - --own-name=org.mozilla.firefox_nightly.*
+
+cleanup-commands:
+  - mkdir -p ${FLATPAK_DEST}/lib/ffmpeg
+
+modules:
+  - name: search-provider
+    buildsystem: simple
+    build-commands:
+      - sed -i -e "s/firefox.desktop/${FLATPAK_ID}.desktop/" firefox-search-provider.ini
+      - install -Dm644 firefox-search-provider.ini ${FLATPAK_DEST}/share/gnome-shell/search-providers/${FLATPAK_ID}-search-provider.ini
+    sources:
+      - type: file
+        url: https://hg.mozilla.org/mozilla-central/raw-file/33f0079fba2d08c293f0a63890fa88c78e2550ec/browser/components/shell/search-provider-files/firefox-search-provider.ini
+        sha256: bd1552045fe32411cf1d0368c69735a95816cf1ddb32ea1a0059fd2f6a694f71
+
+  - name: desktop-file
+    buildsystem: simple
+    build-commands:
+      - sed -i -e "s/Exec=firefox/Exec=firefox-dev/g" -e "s/Icon=org.mozilla.firefox/Icon=${FLATPAK_ID}/g"
+        -e "s/Name=Firefox Web Browser/Name=Firefox Developer Edition/g" -e "s/StartupWMClass=firefox/StartupWMClass=firefoxdeveloperedition/g" org.mozilla.firefox.desktop
+      - install -Dm644 org.mozilla.firefox.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+    sources:
+      - type: file
+        url: https://hg.mozilla.org/mozilla-central/raw-file/33f0079fba2d08c293f0a63890fa88c78e2550ec/taskcluster/docker/firefox-flatpak/org.mozilla.firefox.desktop
+        sha256: 8f75776220dcfc4dbd0fa2b1438f26994a5346ce5f229a75f40b9a3d63afad3a
+
+  - name: launch-script
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 launch-script.sh ${FLATPAK_DEST}/bin/firefox-dev
+    sources:
+      - type: file
+        url: https://hg.mozilla.org/mozilla-central/raw-file/33f0079fba2d08c293f0a63890fa88c78e2550ec/taskcluster/docker/firefox-flatpak/launch-script.sh
+        sha256: 7f84cdc1f433b67c2f7771417d17ff6999ca317447cf090b63315c273567e747
+
+  - name: metainfo
+    buildsystem: simple
+    build-options:
+      env:
+        VERSION: 116.0b8
+    build-commands:
+      - sed -i -e "s/Firefox/Firefox Developer Edition/g" org.mozilla.firefox.appdata.xml.in
+      - sed -i -e "s/\$VERSION/${VERSION}/" -e "s/\$DATE/$(date '+%F')/" -e "s/org.mozilla.firefox/${FLATPAK_ID}/"
+        -e "s/org.mozilla.firefox.desktop/${FLATPAK_ID}.desktop/g" org.mozilla.firefox.appdata.xml.in
+      - install -Dm644 org.mozilla.firefox.appdata.xml.in ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
+    sources:
+      - type: file
+        url: https://hg.mozilla.org/mozilla-central/raw-file/33f0079fba2d08c293f0a63890fa88c78e2550ec/taskcluster/docker/firefox-flatpak/org.mozilla.firefox.appdata.xml.in
+        sha256: 88d24b6ef8dd414aea392ccd6be5f2e5331ad4de7b77bf52c430af03955f6d81
+
+  - name: default-preferences
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 default-preferences.js ${FLATPAK_DEST}/lib/firefox/browser/defaults/preferences/default-preferences.js
+    sources:
+      - type: file
+        url: https://hg.mozilla.org/mozilla-central/raw-file/33f0079fba2d08c293f0a63890fa88c78e2550ec/taskcluster/docker/firefox-flatpak/default-preferences.js
+        sha256: 23faaa790d55eab99c7131008b47859c100297a74eb53530763e34c5f4eebed1
+
+  - name: policies
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 policies.json ${FLATPAK_DEST}/lib/firefox/distribution/policies.json
+    sources:
+      - type: file
+        url: https://hg.mozilla.org/mozilla-central/raw-file/33f0079fba2d08c293f0a63890fa88c78e2550ec/taskcluster/docker/firefox-flatpak/policies.json
+        sha256: 35b68797094749f1d0553b3bc9f4154f323729c0d37345e472f249aab73be1bf
+
+  - name: icons
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 "Fx-Browser-Developer-icon-fullColor.svg" "${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg"
+      - install -Dm644 "Fx-Browser-Developer-icon-oneColor-white.svg" "${FLATPAK_DEST}/share/icons/hicolor/symbolic/apps/${FLATPAK_ID}-symbolic.svg"
+    sources:
+      - type: archive
+        url: https://mozilla.design/files/2019/10/Firefox-Browser-Developer-Logo-Assets.zip
+        sha256: 171804ae3ded7446b7719f656c2124a9e425896f692cecddb8b86708a0105b11
+
+  - name: distribution
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 distribution.ini ${FLATPAK_DEST}/lib/firefox/distribution/distribution.ini
+    sources:
+      - type: file
+        url: https://raw.githubusercontent.com/mozilla-partners/flatpak/ae102c3789bd719c5ff11a67533115132281286e/desktop/flatpak/distribution/distribution.ini
+        sha256: 021457f3601cc6d01bd267f26ba0571c2cea7bcddce5791a4365f842ce20be19
+
+  - name: firefox-dev
+    buildsystem: simple
+    build-commands:
+      - find . -name '*.py' -type f -exec sed -i -e 's,!/usr/bin/python,!/usr/bin/python3,'
+        -e 's,/usr/bin/env python,/usr/bin/env python3,' -s {} \;
+
+      - cp -rf . ${FLATPAK_DEST}/lib/firefox
+      - rm -f ${FLATPAK_DEST}/lib/firefox/firefox-config
+      - rm -f ${FLATPAK_DEST}/lib/firefox/update-settings.ini
+    sources:
+      - type: archive
+        url: https://archive.mozilla.org/pub/firefox/releases/116.0b8/linux-x86_64/en-US/firefox-116.0b8.tar.bz2
+        sha256: 7fc46217633e9665178d3a726cf71a48c88698be6aa12aa908e577f660000e6d
+#        x-checker-data:
+#          type: rotating-url
+#          url: https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=linux64&lang=en-US
+#          pattern: https://download-installer.cdn.mozilla.net/pub/firefox/nightly/latest-mozilla-central/firefox-([0-9.]+)a([0-9.]+).en-US.linux-x86_64.tar.bz2
+
+  - name: languagepacks
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/firefox/distribution/extensions
+      # https://github.com/flathub/org.mozilla.Thunderbird/blob/22e4c5bfffa1a28507a0009c3c84c4f17d69c262/org.mozilla.Thunderbird.json#L244
+      - for lang in langpacks/*.xpi;do export locale=$(basename -s .xpi $lang); install
+        -Dm644 -t /app/share/runtime/locale/${locale:9:2}/ $lang; ln -sf /app/share/runtime/locale/${locale:9:2}/$(basename
+        $lang) /app/firefox/distribution/extensions/$(basename $lang); done
+    sources:
+      - generated-sources.json
