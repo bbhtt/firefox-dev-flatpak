@@ -4,25 +4,15 @@
 
 1. Install [flatpak](https://flatpak.org/setup/) (>=0.11.1), [xdg-desktop-portal](https://github.com/flatpak/xdg-desktop-portal) and its [backends](https://github.com/flatpak/xdg-desktop-portal#using-portals). Latest versions are preferred.
 
-2. Add the Flathub repository if absent
+2. Add the [Flathub](https://flathub.org/setup) repository if absent
+
+3. Install this package
 
 ```bash
-flatpak remote-add [--user] --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install https://gitlab.com/projects261/firefox-dev-flatpak/-/raw/main/firefox-dev.flatpakref
 ```
 
-3. Install `ffmpeg-full` (necessary for full codec support)
-
-```bash
-flatpak install [--user] flathub org.freedesktop.Platform.ffmpeg-full//22.08
-```
-
-4. Install this package
-
-```bash
-flatpak install [--user] https://gitlab.com/projects261/firefox-dev-flatpak/-/raw/main/firefox-dev.flatpakref
-```
-
-This sets up a new [flatpak remote](https://man7.org/linux/man-pages/man5/flatpak-remote.5.html) called `firefoxdev-origin` userwide.
+This sets up a new [flatpak remote](https://docs.flatpak.org/en/latest/flatpak-command-reference.html#flatpak-remotes) called `firefoxdev-origin`.
 
 ## Update
 
@@ -86,7 +76,7 @@ gpg --export <keyid> > example.gpg
 base64 example.gpg | tr -d '\n'
 ```
 
-8. Set up a [schedule](https://docs.gitlab.com/ee/ci/pipelines/schedules.html) `https://gitlab.com/<name>/<project>/-/pipeline_schedules`
+8. Set up a [schedule](https://docs.gitlab.com/ee/ci/pipelines/schedules.html)
 
 9. Install the flatpakref file as in step #4. Done!
 
@@ -125,9 +115,9 @@ cd firefox-dev-flatpak
 3. Install the dependencies
 
 ```bash
-flatpak install --user flathub org.freedesktop.Sdk//22.08
-flatpak install --user flathub org.freedesktop.Platform//22.08
-flatpak install --user flathub org.mozilla.firefox.BaseApp//22.08
+flatpak install flathub org.freedesktop.Sdk//22.08
+flatpak install flathub org.freedesktop.Platform//22.08
+flatpak install flathub org.mozilla.firefox.BaseApp//22.08
 ```
 3. Run this command to build
 
