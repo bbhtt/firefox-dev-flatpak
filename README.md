@@ -9,7 +9,7 @@
 3. Install this package
 
 ```bash
-flatpak install https://gitlab.com/projects261/firefox-dev-flatpak/-/raw/main/firefox-dev.flatpakref
+flatpak install [--user] https://gitlab.com/projects261/firefox-dev-flatpak/-/raw/main/firefox-dev.flatpakref
 ```
 
 This sets up a new [flatpak remote](https://docs.flatpak.org/en/latest/flatpak-command-reference.html#flatpak-remotes) called `firefoxdev-origin`.
@@ -29,6 +29,15 @@ flatpak remove [--delete-data] org.mozilla.FirefoxDev
 # Clear dependencies
 flatpak uninstall --unused
 ```
+
+## GNOME Shell Search Provider
+
+To enable:
+
+1. Go to `about:config` and create the pref `browser.gnome-search-provider.enabled` as boolean. Set the value to `true`
+2. Go to GNOME Control Center > Search and drag Firefox Nightly to the top of the list
+3. Restart Firefox and try searching in the shell overview
+
 ## Bugs
 
 Check if it is already a known issue first https://bugzilla.mozilla.org/show_bug.cgi?id=flatpak
