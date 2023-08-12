@@ -35,7 +35,7 @@ flatpak uninstall --unused
 To enable:
 
 1. Go to `about:config` and create the pref `browser.gnome-search-provider.enabled` as boolean. Set the value to `true`
-2. Go to GNOME Control Center > Search and drag Firefox Nightly to the top of the list
+2. Go to GNOME Control Center > Search and drag Firefox Developer Edition to the top of the list
 3. Restart Firefox and try searching in the shell overview
 
 ## Bugs
