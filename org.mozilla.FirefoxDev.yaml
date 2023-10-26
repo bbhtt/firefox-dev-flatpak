@@ -93,7 +93,7 @@ modules:
     buildsystem: simple
     build-options:
       env:
-        VERSION: 120.0b1
+        VERSION: 120.0b2
     build-commands:
       - sed -i -e "s/Firefox/Firefox Developer Edition/g" org.mozilla.firefox.appdata.xml.in
       - sed -i -e "s/\$VERSION/${VERSION}/" -e "s/\$DATE/$(date '+%F')/" -e "s/org.mozilla.firefox/${FLATPAK_ID}/"
@@ -152,8 +152,8 @@ modules:
       - rm -f ${FLATPAK_DEST}/lib/firefox/update-settings.ini
     sources:
       - type: archive
-        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/120.0b1/linux-x86_64/en-US/firefox-120.0b1.tar.bz2
-        sha256: 443db537d35bfaad6fe1903a23ffb20b24977ffd0e9dae1905af3f8d25f1547a
+        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/120.0b2/linux-x86_64/en-US/firefox-120.0b2.tar.bz2
+        sha256: 097644f5e6ad69fc65ea84ff513efc1c0c3c165d79c834f076ae34bce20473e7
 #        x-checker-data:
 #          type: rotating-url
 #          url: https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=linux64&lang=en-US
