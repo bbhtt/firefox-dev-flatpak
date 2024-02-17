@@ -60,10 +60,10 @@ modules:
       - install -Dm644 org.mozilla.firefox.SearchProvider.service ${FLATPAK_DEST}/share/dbus-1/services/${FLATPAK_ID}.SearchProvider.service
     sources:
       - type: file
-        url: http://hg.mozilla.org/mozilla-central/raw-file/861d200fe3e761e23bbb6ce556446725fb01cd43/browser/components/shell/search-provider-files/org.mozilla.firefox.search-provider.ini
+        url: https://hg.mozilla.org/mozilla-central/raw-file/861d200fe3e761e23bbb6ce556446725fb01cd43/browser/components/shell/search-provider-files/org.mozilla.firefox.search-provider.ini
         sha256: b6104964478760c2f92d54978364c342746c1cdb4963dbc61d13bb68cccc81e9
       - type: file
-        url: http://hg.mozilla.org/mozilla-central/raw-file/37f95f3281e96129b40618a823b13847ca4d587b/browser/components/shell/search-provider-files/org.mozilla.firefox.SearchProvider.service
+        url: https://hg.mozilla.org/mozilla-central/raw-file/37f95f3281e96129b40618a823b13847ca4d587b/browser/components/shell/search-provider-files/org.mozilla.firefox.SearchProvider.service
         sha256: 68e2ce9033fc17394ab9daed0d7478022ab88e210453af90c403fab023a79500
 
   - name: desktop-file
