@@ -20,6 +20,8 @@ finish-args:
 
   - --device=all
 
+  - --env=DICPATH=/usr/share/hunspell
+
   - --share=ipc
   - --share=network
 
