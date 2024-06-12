@@ -57,28 +57,24 @@ modules:
   - name: search-provider
     buildsystem: simple
     build-commands:
-      - sed -i -e "s/firefox.desktop/${FLATPAK_ID}.desktop/" -e "s/org\.mozilla\.Firefox\.SearchProvider/org\.mozilla\.firefox_aurora\.SearchProvider/g" -e "s|\/org\/mozilla\/Firefox\/SearchProvider|\/org\/mozilla\/firefox_aurora\/SearchProvider|g" org.mozilla.firefox.search-provider.ini
-      - sed -i -e 's/Name=org\.mozilla.firefox\.SearchProvider/Name=org\.mozilla\.FirefoxDev\.SearchProvider/g' -e 's/Exec=\/usr\/bin\/firefox/Exec=\/app\/bin\/firefox-dev/g' org.mozilla.firefox.SearchProvider.service
       - install -Dm644 org.mozilla.firefox.search-provider.ini ${FLATPAK_DEST}/share/gnome-shell/search-providers/${FLATPAK_ID}-search-provider.ini
       - install -Dm644 org.mozilla.firefox.SearchProvider.service ${FLATPAK_DEST}/share/dbus-1/services/${FLATPAK_ID}.SearchProvider.service
     sources:
       - type: file
-        url: https://hg.mozilla.org/mozilla-central/raw-file/861d200fe3e761e23bbb6ce556446725fb01cd43/browser/components/shell/search-provider-files/org.mozilla.firefox.search-provider.ini
-        sha256: b6104964478760c2f92d54978364c342746c1cdb4963dbc61d13bb68cccc81e9
+        path: files/org.mozilla.firefox.search-provider.ini
+        sha256: 610e0b76beb3130e0e51243280f27f3ff6dcc3eb5af6a364cf5d4ff68f86670b
       - type: file
-        url: https://hg.mozilla.org/mozilla-central/raw-file/37f95f3281e96129b40618a823b13847ca4d587b/browser/components/shell/search-provider-files/org.mozilla.firefox.SearchProvider.service
-        sha256: 68e2ce9033fc17394ab9daed0d7478022ab88e210453af90c403fab023a79500
+        path: files/org.mozilla.firefox.SearchProvider.service
+        sha256: 403e183c341ac610b721005272bf6cfb013fe172ce8abd810352abbf7ad29a95
 
   - name: desktop-file
     buildsystem: simple
     build-commands:
-      - sed -i -e "s/Exec=firefox/Exec=firefox-dev/g" -e "s/Icon=org.mozilla.firefox/Icon=${FLATPAK_ID}/g"
-        -e "s/Name=Firefox Web Browser/Name=Firefox Developer Edition/g" -e "s/StartupWMClass=firefox/StartupWMClass=org.mozilla.FirefoxDev/g" org.mozilla.firefox.desktop
       - install -Dm644 org.mozilla.firefox.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
     sources:
       - type: file
-        url: https://hg.mozilla.org/mozilla-central/raw-file/37f95f3281e96129b40618a823b13847ca4d587b/taskcluster/docker/firefox-flatpak/org.mozilla.firefox.desktop
-        sha256: 8f75776220dcfc4dbd0fa2b1438f26994a5346ce5f229a75f40b9a3d63afad3a
+        path: files/org.mozilla.firefox.desktop
+        sha256: 8c0810f31fe519ac09ae83479ccd637588585ae0d1cbc76bf2ba7fa0ac35dc30
 
   - name: launch-script
     buildsystem: simple
@@ -98,14 +94,12 @@ modules:
       env:
         VERSION: 127.0b9
     build-commands:
-      - sed -i -e "s/Firefox/Firefox Developer Edition/g" org.mozilla.firefox.appdata.xml.in
-      - sed -i -e "s/\$VERSION/${VERSION}/" -e "s/\$DATE/$(date '+%F')/" -e "s/org.mozilla.firefox/${FLATPAK_ID}/"
-        -e "s/org.mozilla.firefox.desktop/${FLATPAK_ID}.desktop/g" org.mozilla.firefox.appdata.xml.in
+      - sed -i -e "s/\$VERSION/${VERSION}/" -e "s/\$DATE/$(date '+%F')/" -e "s/org.mozilla.firefox/${FLATPAK_ID}/" org.mozilla.firefox.appdata.xml.in
       - install -Dm644 org.mozilla.firefox.appdata.xml.in ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
     sources:
       - type: file
-        url: https://hg.mozilla.org/mozilla-central/raw-file/37f95f3281e96129b40618a823b13847ca4d587b/taskcluster/docker/firefox-flatpak/org.mozilla.firefox.appdata.xml.in
-        sha256: db39e078014caa6f97be775a2e0d2cf1366a45ca1fd146b210bf1594a99b9970
+        path: files/org.mozilla.firefox.appdata.xml.in
+        sha256: 30db9f1534f40f9e9b353f1314ff52f7d03c8500dea129e6d74f5becbc1174a5
 
   - name: icons
     buildsystem: simple
@@ -113,9 +107,12 @@ modules:
       - install -Dm644 "Fx-Browser-Developer-icon-fullColor.svg" "${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg"
       - install -Dm644 "Fx-Browser-Developer-icon-oneColor-white.svg" "${FLATPAK_DEST}/share/icons/hicolor/symbolic/apps/${FLATPAK_ID}-symbolic.svg"
     sources:
-      - type: archive
-        url: https://mozilla.design/files/2019/10/Firefox-Browser-Developer-Logo-Assets.zip
-        sha256: 9d43352b74a7662c90b81cd9d35949cc42141ed05d98b2877f33e55d6add2e92
+      - type: file
+        path: files/Fx-Browser-Developer-icon-fullColor.svg
+        sha256: 4b4584167dbbee0de90bfde9e692b05c89e3c336d1b994db29bf3ee5b65aa98f
+      - type: file
+        path: files/Fx-Browser-Developer-icon-oneColor-white.svg
+        sha256: 11020586612d6177f1c6fbf3caaf5e0617abfa67f5ecbdf0c17786eaf5b160d1
 
   - name: distribution
     buildsystem: simple
@@ -123,7 +120,7 @@ modules:
       - install -Dm644 distribution.ini ${FLATPAK_DEST}/lib/firefox/distribution/distribution.ini
     sources:
       - type: file
-        url: https://raw.githubusercontent.com/mozilla-partners/flatpak/669af66414d0f8114d4bfd4021801738d02f9cd2/desktop/flatpak/distribution/distribution.ini
+        path: files/distribution.ini
         sha256: 5734f9a472d682326c087e92b71c3970e95712f24b1e4d88722669efdb3430a8
 
   - name: firefox-dev
