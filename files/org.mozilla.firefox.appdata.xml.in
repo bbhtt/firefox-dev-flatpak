@@ -28,7 +28,7 @@
 
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://gitlab.com/projects261/firefox-dev-flatpak/-/raw/main/files/screenshot01-first-run.pngg</image>
+      <image type="source">https://gitlab.com/projects261/firefox-dev-flatpak/-/raw/main/files/screenshot01-first-run.png</image>
       <caption>The “Welcome to Firefox Developer Edition” page</caption>
     </screenshot>
     <screenshot>
