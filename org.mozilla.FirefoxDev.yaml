@@ -21,6 +21,7 @@ finish-args:
   - --device=all
 
   - --env=DICPATH=/usr/share/hunspell
+  - --env=MOZ_APP_REMOTINGNAME=org.mozilla.FirefoxDev
 
   - --share=ipc
   - --share=network
