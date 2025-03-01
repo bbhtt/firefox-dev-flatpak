@@ -75,7 +75,7 @@ modules:
     sources:
       - type: file
         path: files/org.mozilla.firefox.desktop
-        sha256: 8c0810f31fe519ac09ae83479ccd637588585ae0d1cbc76bf2ba7fa0ac35dc30
+        sha256: ff6847e62ae297a646d1c82f4dc767090b30a89909841b9a95510d9eadb394fb
 
   - name: launch-script
     buildsystem: simple
@@ -108,12 +108,9 @@ modules:
       - install -Dm644 "Fx-Browser-Developer-icon-fullColor.svg" "${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg"
       - install -Dm644 "Fx-Browser-Developer-icon-oneColor-white.svg" "${FLATPAK_DEST}/share/icons/hicolor/symbolic/apps/${FLATPAK_ID}-symbolic.svg"
     sources:
-      - type: file
-        path: files/Fx-Browser-Developer-icon-fullColor.svg
-        sha256: 4b4584167dbbee0de90bfde9e692b05c89e3c336d1b994db29bf3ee5b65aa98f
-      - type: file
-        path: files/Fx-Browser-Developer-icon-oneColor-white.svg
-        sha256: 11020586612d6177f1c6fbf3caaf5e0617abfa67f5ecbdf0c17786eaf5b160d1
+      - type: archive
+        url: https://mozilla.design/files/2019/10/Firefox-Browser-Developer-Logo-Assets.zip
+        sha256: 9d43352b74a7662c90b81cd9d35949cc42141ed05d98b2877f33e55d6add2e92
 
   - name: distribution
     buildsystem: simple
@@ -122,7 +119,7 @@ modules:
     sources:
       - type: file
         path: files/distribution.ini
-        sha256: 5734f9a472d682326c087e92b71c3970e95712f24b1e4d88722669efdb3430a8
+        sha256: 8e457e773498f781754ab7bdb568b864ef260bc180c49838ab1165c262b05f5c
 
   - name: firefox-dev
     buildsystem: simple
