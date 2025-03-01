@@ -135,12 +135,12 @@ modules:
       - rm -f ${FLATPAK_DEST}/lib/firefox/update-settings.ini
     sources:
       - type: archive
-        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/136.0b8/linux-x86_64/en-US/firefox-136.0b8.tar.xz
-        sha256: d94ddbda876eee97550283dee74d449f2cf9d64594e9ff696b91428703b47cbc
+        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/136.0b9/linux-x86_64/en-US/firefox-136.0b9.tar.xz
+        sha256: f08464be1771f8febb62df74e4dacd5d49977148d336f2e218c69736a957f5b5
         only-arches: [x86_64]
       - type: archive
-        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/136.0b8/linux-aarch64/en-US/firefox-136.0b8.tar.xz
-        sha256: d94ddbda876eee97550283dee74d449f2cf9d64594e9ff696b91428703b47cbc
+        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/136.0b9/linux-aarch64/en-US/firefox-136.0b9.tar.xz
+        sha256: ad0411936a5d6ae0d611b0f06f10fbc99380751e9320652efc7ed3ab24a593fc
         only-arches: [aarch64]
 #        x-checker-data:
 #          type: rotating-url
