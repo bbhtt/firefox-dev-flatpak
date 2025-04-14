@@ -93,7 +93,7 @@ modules:
     buildsystem: simple
     build-options:
       env:
-        VERSION: 138.0b6
+        VERSION: 138.0b7
     build-commands:
       - sed -i -e "s/\$VERSION/${VERSION}/" -e "s/\$DATE/$(date '+%F')/" -e "s/org.mozilla.firefox/${FLATPAK_ID}/" org.mozilla.firefox.appdata.xml.in
       - install -Dm644 org.mozilla.firefox.appdata.xml.in ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
@@ -132,12 +132,12 @@ modules:
       - rm -f ${FLATPAK_DEST}/lib/firefox/update-settings.ini
     sources:
       - type: archive
-        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/138.0b6/linux-x86_64/en-US/firefox-138.0b6.tar.xz
-        sha256: 390c3bbc250771d23a811bae289acaf99c2ddfa999f5030e82ef9fbe3e9cc4d9
+        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/138.0b7/linux-x86_64/en-US/firefox-138.0b7.tar.xz
+        sha256: 57470e280749e590c94fe8edd899aa36549227138f240ae187cce1d17dc7fd93
         only-arches: [x86_64]
       - type: archive
-        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/138.0b6/linux-aarch64/en-US/firefox-138.0b6.tar.xz
-        sha256: 10dd0b9657fa96e624a5b2517b8605ea1b18a58c68f14a61a77c4939c148e3dc
+        url: https://download-installer.cdn.mozilla.net/pub/devedition/releases/138.0b7/linux-aarch64/en-US/firefox-138.0b7.tar.xz
+        sha256: 4dfa71b44101481e2b3c24133753af4fc89ef67f8d78cca03f687e5561e104d5
         only-arches: [aarch64]
 #        x-checker-data:
 #          type: rotating-url
